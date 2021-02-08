@@ -1,0 +1,394 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "REST API CloudSecurity MELI",
+      "description": "Challenge MELI"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "tags": [
+      {
+        "name": "IpCollector",
+        "description": "Endpoint para servicio"
+      },
+      {
+        "name": "Users",
+        "description": "Endpoint para autenticacion"
+      }
+    ],
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/signup": {
+        "post": {
+          "summary": "Registro de usuarios",
+          "tags": [
+            "Users"
+          ],
+          "description": "Registra usuarios en el sistema",
+          "parameters": [
+            {
+              "name": "User",
+              "in": "body",
+              "description": "Signup user",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserSignUp"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "User created",
+              "schema": {
+                "$ref": "#/definitions/UserSignUp"
+              }
+            },
+            "400":{
+              "description": "One or more params are missing!"
+            },
+            "500":{
+              "description": "An internal error ocurrered!!"
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "summary": "Login de usuarios",
+          "tags": [
+            "Users"
+          ],
+          "description": "Loguea usuarios",
+          "parameters": [
+            {
+              "name": "apiToken",
+              "in": "query",
+              "description": "apiToken",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            },
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User system",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "201": {
+              "description": "Login success",
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            },
+            "401":{
+              "description": "Credentials not valid!"
+            },
+            "400":{
+              "description": "One or more params are missing!!"
+            }
+          }
+        }
+      },
+      "/getAllIps": {
+        "get": {
+          "description": "Retorna todas las ips extraidas de las fuentes externas.\n",
+          "summary": "Obtener de las fuentes",
+          "operationId": "getAllIps",
+          "tags": [
+            "IpCollector"
+          ],
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "All ips collected"
+            },
+            "500": {
+              "description": "Internal error"
+            },
+            "403": {
+              "description": "Token is required"
+            },
+            "401": {
+              "description": "Token is not match"
+            }
+          }
+        }
+      },
+      "/getWithoutWhiteList": {
+        "get": {
+          "summary": "Obtener ips confiables",
+          "description": "Retorna todas las ips extraidas de las fuentes externas pero quitando las que estan en lista de confianza.\n",
+          "operationId": "findByWhiteList",
+          "tags": [
+            "IpCollector"
+          ],
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "All ips collected"
+            },
+            "500": {
+              "description": "Internal error"
+            },
+            "403": {
+              "description": "Token is required"
+            },
+            "401": {
+              "description": "Token is not match"
+            }
+          }
+        }
+      },
+      "/addIp": {
+        "post": {
+          "summary": "Añadir ip",
+          "tags": [
+            "IpCollector"
+          ],
+          "description": "Añade ips a la entidad de confianza",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "apiToken",
+              "in": "query",
+              "description": "apiToken",
+              "required": true
+            },
+            {
+              "name": "user",
+              "in": "query",
+              "description": "User system",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            },
+            {
+              "name": "ip",
+              "in": "body",
+              "description": "Ip address",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/IpCollector"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ip added"
+            },
+            "500":{
+              "description": "Internal error!"
+            },
+            "400":{
+              "description": "One or more params are missing!!"
+            }
+          }
+        }
+      },
+      "/removeIp": {
+        "delete": {
+          "summary": "Elimina ips de la lista de confianza",
+          "tags": [
+            "IpCollector"
+          ],
+          "description": "Elimina ips",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "apiToken",
+              "in": "query",
+              "description": "apiToken",
+              "required": true
+            },
+            {
+              "name": "user",
+              "in": "query",
+              "description": "user",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            },
+            {
+              "name": "ip",
+              "in": "query",
+              "description": "Ip a remover",
+              "required": true
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Ip removed"
+            },
+            "500":{
+              "description": "Internal error!"
+            },
+            "400":{
+              "description": "One or more params are missing!!"
+            }
+          }
+        }
+      },
+      "/replicate": {
+        "post": {
+          "summary": "Enpoint para replica",
+          "tags": [
+            "IpCollector"
+          ],
+          "description": "Este endpoint solo se usa para Cronjob automatico que se encarga de recolectar todas las ips de fuentes externas cada 30 minutos.",
+          "parameters": [
+            {
+              "name": "authorization",
+              "in": "header",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "apiToken",
+              "in": "query",
+              "description": "apiToken",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            },
+            {
+              "name": "user",
+              "in": "query",
+              "description": "user",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/UserLogin"
+              }
+            },
+            {
+              "name": "ds",
+              "in": "body",
+              "description": "ds",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/DataSources"
+              }
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Replicated ok"
+            },
+            "400":{
+              "description": "One or more params are missing!!"
+            },
+            "404":{
+              "description": "No data collected!!"
+            }
+          }
+        }
+      }
+    },
+
+    "definitions": {
+      "UserSignUp": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "pass": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "integer"
+          }
+        }
+      },
+      "UserLogin": {
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "pass": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        }
+      },
+      "IpCollector": {
+        "properties": {
+          "ip": {
+            "type": "string"
+          }
+        }
+      },
+      "DataSources": {
+        "properties": {
+          "ds": {
+            "type": "array",
+            "items": {
+              "minItems": 1,
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }

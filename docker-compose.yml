@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    build: ./db
+    networks:
+            - testing_net
+    restart: always
+    volumes:
+      - ./my-datavolume:/var/lib/mysql
+
+  web:
+    build: ./app
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: csmeli
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    restart: always
+    links:
+      - db:db
+    networks:
+            - testing_net
+
+networks:
+    testing_net:
