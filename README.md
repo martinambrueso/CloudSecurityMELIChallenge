@@ -116,8 +116,8 @@ ACLARACION: Todos los tokens firmados tienen una duración máxima de 2 minutos,
 * Se propone armar un cluster de instancias virtuales EC2, comenzando con instancias de tipo T2, ya que las mismas permiten hacer un escalado vertical con capacidades bastante superiores.
 * AWS cuenta con balanceadores de carga nativos, y también se encargan de autogestionar en casos de instancias que dejan de funcionan. Con lo cual, el esquema de alta disponibilidad lo dejamos enteramente en manos de AWS.
 * Todas las instancias deben estar dentro de una VPC AWS(Amazon Virtual Private Cloud)
-* Con este esquema tenemos tanto escalamiento horizontal como vertical, horizontal ya que podemos aumentar la capacidad de las instancias EC2, podemos cambiar la capacidad sin alterar ninguna parte del flujo.
-* Escalamiento vertical, ya que podemos agregar tantas replicas de instancias del servicio en la VPC como necesitemos sobre el cluster, si aumenta la demanda no supone grandes cambios. 
+* Con este esquema tenemos tanto escalabilidad horizontal como vertical, vertical ya que podemos aumentar la capacidad de las instancias EC2, podemos cambiar la capacidad sin alterar ninguna parte del flujo.
+* Escalabilidad horizontal, ya que podemos agregar tantas replicas de instancias del servicio en la VPC como necesitemos sobre el cluster, si aumenta la demanda no supone grandes cambios. 
 * Lo mas conveniente es usar AMIs de Ubuntu server (Amazon Machine Images), están cargadas en los catálogos y hay distintos tipos de imágenes dependiendo del alcance. Las mismas están listas y preconfiguradas para hacer uso. Por lo general, configuraciones de acceso remoto y seguridad ya están hechas, el resto de configuraciones son puntuales del ambiente que se vaya a desplegar.
 * La gestión de estas instancias pueden hacerse de manera manual, mediante el panel administrable, y también mediante SDKs o CLIs. Esto es altamente recomendable para clusters numerosos, para tareas de automatizacion. Ademas cuentan con soporte de herramientas como Ansilble y Terraform.
 
