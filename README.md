@@ -101,7 +101,7 @@ ACLARACION: Todos los tokens firmados tienen una duración máxima de 2 minutos,
 
 * No se realizaron test de inyección SQL, pero mas que nada por la sencilla razón de que es una de las formas de persistir información, no así la mas conveniente. De todas maneras se hizo la sanitización de entradas y gran parte de la seguridad de las querys esta en buenas manos con la librería. A pesar de ello, es conveniente hacer un escaneo en caso de salir a producción.
 
-* Las sesiones se gestionan con Json Web Token, los payloads se armaron con poca complejidad, y longitud de firma corta, por cuestiones de simplicidad, pero es importante aumentar el tamaño de la firma y hacer una gestión mas estricta de la carga util. A fines de este caso nos va a dar la capa de protección adecuada. Duración Máxima de los tokens: 120 segundos.
+* Las sesiones se gestionan con Json Web Token, los payloads se armaron con un esquema basico, y longitud de firma corta, por cuestiones de simplicidad, pero es importante aumentar el tamaño de la firma y hacer una gestión mas estricta de la carga util. A fines de este caso nos va a dar la capa de protección adecuada. Duración Máxima de los tokens: 120 segundos.
 
 * El esquema de roles y permisos es muy sencillo, solo se valida rol de admin, y en base a eso se restringe en los middlewares (revisar comentarios de ./src/routes/ipcollector.js)
 
