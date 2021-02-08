@@ -34,7 +34,7 @@
           "tags": [
             "Users"
           ],
-          "description": "Registra usuarios en el sistema",
+          "description": "Registra usuarios en el sistema, para dar de alta un admin, el valor 'admin' debe ser 1, de lo contrario sera guest.",
           "parameters": [
             {
               "name": "User",
